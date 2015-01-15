@@ -6,6 +6,8 @@ use Moo;
 has kwalitee      => (is => 'ro');
 has core_kwalitee => (is => 'ro');
 
+1;
+
 =head1 NAME
 
 CPAN::Dashboard::Distribution::Kwalitee - Package to manage the KWALITEE of distribution for CPAN Dashboard.
@@ -29,4 +31,5 @@ This software is copyright (c) 2014 by Neil Bowers <neilb@cpan.org>.
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
-1;
+=cut
+
