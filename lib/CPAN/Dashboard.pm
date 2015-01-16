@@ -8,7 +8,7 @@ use PAUSE::Packages;
 use PAUSE::Permissions;
 use HTTP::Tiny;
 use JSON;
-use CPAN::ReverseDependencies;
+use MetaCPAN::Client;
 use CPAN::Testers::WWW::Reports::Query::AJAX;
 
 use CPAN::Dashboard::Distribution;
@@ -51,7 +51,7 @@ sub _build_distributions
     }
 
     # get and set counts of bugs and reverse dependencies
-    my $revua = CPAN::ReverseDependencies->new();
+    my $mcpan = MetaCPAN::Client->new();
     foreach my $distname (keys %distmap) {
         $dist     = $distmap{$distname};
         $url      = sprintf('https://api.metacpan.org/distribution/%s', $distname);
@@ -69,8 +69,8 @@ sub _build_distributions
         # Count of reverse dependencies
         # TODO: changes this to a list of dist names?
         #
-        my @deps = $revua->get_reverse_dependencies($distname);
-        $dist->rev_deps_count(int(@deps));
+        my $deps = $mcpan->reverse_dependencies($distname);
+        $dist->rev_deps_count($deps->total);
 
         #
         # CPAN Testers stats
